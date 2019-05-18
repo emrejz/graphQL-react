@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {gql} from 'apollo-boost'
-import {  graphql } from 'react-apollo'
+import {  Query } from 'react-apollo'
 
 const getMovies=gql`
   {
@@ -9,14 +9,23 @@ const getMovies=gql`
     }}`
 class MovieList extends Component {
   render() {
-    console.log(this.props)
     return (
       <div>
         <ul className="MovieList">
-            <li>emre</li>
+            <Query query={getMovies}>
+              {({loading,error,data})=>{
+                  if(loading)return <div>LOADING</div>
+                  if(error)return <div>ERROR</div>
+                  return data.movies.map(movie=>
+                  <li key={movie.id}>
+                    {movie.title}
+                  </li>
+                  )
+              }}
+            </Query>
         </ul>
       </div>
     )
   }
 }
-export default graphql(getMovies)(MovieList)
+export default MovieList
