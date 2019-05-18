@@ -3,6 +3,7 @@ import {moviesQuery} from "../queries/queries"
 import {  Query } from 'react-apollo'
 
 class MovieList extends Component {
+  
   render() {
     return (
       <div>
