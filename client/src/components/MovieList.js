@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import {gql} from 'apollo-boost'
+import {moviesQuery} from "../queries/queries"
 import {  Query } from 'react-apollo'
 
-const getMovies=gql`
-  {
-  movies{
-    title,description,directorID,year,id
-    }}`
 class MovieList extends Component {
   render() {
     return (
       <div>
         <ul className="MovieList">
-            <Query query={getMovies}>
+            <Query query={moviesQuery}>
               {({loading,error,data})=>{
                   if(loading)return <div>LOADING</div>
                   if(error)return <div>ERROR</div>

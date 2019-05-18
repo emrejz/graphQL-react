@@ -1,14 +1,7 @@
 import React, { Component } from 'react'
-import { gql } from 'apollo-boost'
 import { Query} from 'react-apollo'
+import {directorsQuery} from "../queries/queries"
 
-const getDirectors=gql`
-{
-    directors{
-        id,name,birth
-    }
-}
-`
 
 export default class NewMovieForm extends Component {
   render() {
@@ -31,7 +24,7 @@ export default class NewMovieForm extends Component {
                 <label htmlFor="directorSlc">Director</label>
                 <select id="directorSlc">
                     <option disabled={true}>Selecet Director</option>
-                    <Query query={getDirectors}>
+                    <Query query={directorsQuery}>
                         {({loading,error,data})=>{
                             if(loading) return <option disabled={true}>Loading</option>
                             if(error) return <option disabled={true}>Error</option>
