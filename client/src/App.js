@@ -12,9 +12,9 @@ const client=new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-       <MovieList/>
-       <NewMovieForm/>
+      <div className="App"> 
+      <NewMovieForm/>
+      <MovieList/>
       </div>
     </ApolloProvider>
   );
