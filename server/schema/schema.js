@@ -8,11 +8,11 @@ const {GraphQLObjectType,GraphQLNonNull, GraphQLList,GraphQLSchema,GraphQLID,Gra
 const MovieType = new GraphQLObjectType({
 	name: 'Movie',description:"falan filan",
 	fields: () => ({
-		id: { type: GraphQLID },
+		id: { type: GraphQLString },
 		title: { type: GraphQLString },
 		description: { type: GraphQLString }, 
         year: { type: GraphQLInt },
-        directorID:{type:GraphQLID},
+        directorID:{type:GraphQLString},
 		director: {
 			type: DirectorType,
 			resolve(parent, args){
@@ -26,7 +26,7 @@ const MovieType = new GraphQLObjectType({
 const DirectorType = new GraphQLObjectType({
 	name: 'Director',
 	fields: () => ({
-		id:{type:GraphQLID},  
+		id:{type:GraphQLString},  
 		name: { type: GraphQLString },
 		birth: { type: GraphQLInt },
 		movies: {
@@ -44,14 +44,14 @@ const RootQuery = new GraphQLObjectType({
 	fields: {
 		movie: {
 			type: MovieType,
-			args: { id: { type: GraphQLID } },
+			args: { id: { type: GraphQLString } },
 			resolve(parent, args){
 				return MovieSchema.findById(args.id)
 			}
 		},
 		director: {
 			type: DirectorType,
-			args: { id: { type: GraphQLID } },
+			args: { id: { type: GraphQLString } },
 			resolve(parent, args){
 				return DirectorSchema.findById(args.id)
 			}
@@ -81,7 +81,7 @@ const Mutation = new GraphQLObjectType({
 				title: { type:new GraphQLNonNull(GraphQLString) },
 				description: { type: GraphQLString },
 				year: { type: GraphQLInt },
-				directorID: { type: new GraphQLNonNull(GraphQLID) }
+				directorID: { type: new GraphQLNonNull(GraphQLString) }
 			},
 			resolve(parent, args){
 				const movie = new MovieSchema({

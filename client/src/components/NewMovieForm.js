@@ -67,11 +67,10 @@ export default class NewMovieForm extends Component {
                                 <div>
                                     <button type="submit">Submit</button>
                                 </div>
-
                             </form>
-                            {loading && <h1>LOADING</h1>}
-                            {error && <h1>ERROR</h1>}
                         </div>
+                        {loading && <h1>LOADING</h1>}
+                        {error && <h1>ERROR</h1>}
                     </div>
                 )}
             </Mutation>

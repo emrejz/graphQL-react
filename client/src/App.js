@@ -6,7 +6,7 @@ import MovieList from './components/MovieList'
 import NewMovieForm from './components/NewMovieForm'
 
 const client=new ApolloClient({
-  uri:"http://localhost:3000/graphql"
+  uri:"http://127.0.0.1:3000/graphql"
 })
 
 function App() {

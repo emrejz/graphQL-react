@@ -14,8 +14,17 @@ export const moviesQuery=gql`
     }
 }`
 
+export const movieQuery=gql`
+query($id:String){
+    movie(id:$id){
+        title,description,year,director{
+            name
+        }
+    }
+}`
+
 export const newMovieMutation=gql`
-	mutation($title:String!, $description:String, $year:Int, $directorID:ID!){
+	mutation($title:String!, $description:String, $year:Int, $directorID:String!){
 		addMovie(title:$title, description:$description, year:$year, directorID:$directorID){
             title
 		}
