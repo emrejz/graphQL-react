@@ -30,15 +30,29 @@ class MovieList extends Component {
     return (
       <div className="container" data-state="Movie App">
         <Modal
-          title="Basic Modal"
+          title="Movie Detail"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}>
           <Query query={movieQuery} variables={{id:this.state.id}}>{({loading,error,data})=>{
           if(loading) return <div>Loading</div>
           if(error) return <div>Error</div>
-            console.log(data)
-            return <div>test</div>
+            return <div>
+              <h2>{ data.movie.title }</h2>
+							<p style={{"fontSize":"15px"}}>{ data.movie.year }</p>
+							<p style={{"fontSize":"15px"}}>{ data.movie.description }</p>
+							<br/>
+							<h3>{ data.movie.director.name }</h3>
+									<ul className="director-list" >{
+										data.movie.director.movies.map(movie => (
+                      <li style={{"backgroundColor":"yellow"}} key={movie.id}>
+                        <div className="bg"></div>
+                        <div className="title">{movie.title}</div>
+                      </li>
+										))
+                  }
+                  </ul>
+            </div>
         }}</Query>
         </Modal>
         <div className="device" data-view="list">

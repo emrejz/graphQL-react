@@ -7,11 +7,19 @@ export default class NewMovieForm extends Component {
     state = {
         title: "",
         description: "",
-        year: null,
-        directorID: ""
+        year: "",
+        directorID: "",
+        displayReq:"none"
     }
  
-    
+    formReset=()=>{
+        this.setState({
+            title: "",
+            description: "",
+            year: "",
+            directorID: ""
+        })
+    }   
     onChng = (e) => {
         this.setState(
             { [e.target.id]: e.target.value }
@@ -19,47 +27,53 @@ export default class NewMovieForm extends Component {
     }
     render() {
         return (
-            <Mutation mutation={newMovieMutation}>
+            <Mutation mutation={newMovieMutation}
+             onCompleted={()=>this.formReset()}>
                 {(addMovie, { loading, error }) => (
                     <div className="container" data-state="New Movie">
                         <div className="device" data-view="list">
                             <form onSubmit={(e) => {
-                                const element=document.getElementsByClassName("device")
-                                setTimeout(() => {
-                                    element.scrollTop=element.scrollHeight   
-                                });
                                 e.preventDefault();
-                                addMovie({
+                                const {title,year,description,directorID}=this.state;
+                                if(!title.trim()!==""&&directorID.trim()!==""){
+                                this.setState({displayReq:"none"})
+                                 addMovie({
                                     variables: {
-                                        title: this.state.title,
-                                        description: this.state.description,
-                                        year: parseInt(this.state.year, 10),
-                                        directorID: this.state.directorID
+                                        title: this.state.title.trim(),
+                                        description: this.state.description.trim(),
+                                        year: parseInt(this.state.year.trim(), 10),
+                                        directorID: this.state.directorID.trim()
                                     },
                                     refetchQueries: [{ query: moviesQuery }]
-                                })
+                                })}
+                                else{
+                                    this.setState({displayReq:"block"})
+                                } 
                             }}>
                                 <div>
+                                    <div style={{"color":"red","display":this.state.displayReq}}>Title and director required</div>
                                     <label htmlFor="title">Title</label>
-                                    <input onChange={this.onChng} type="text" id="title" placeholder="enter title" />
+                                    <input value={this.state.title} onChange={this.onChng} type="text" id="title" placeholder="enter title" />
                                 </div>
                                 <div>
                                     <label htmlFor="description">Description</label>
-                                    <input onChange={this.onChng} type="text" id="description" placeholder="enter description" />
+                                    <input value={this.state.description} onChange={this.onChng} type="text" id="description" placeholder="enter description" />
                                 </div>
                                 <div>
                                     <label htmlFor="year">Year</label>
-                                    <input onChange={this.onChng} type="text" id="year" placeholder="enter year" />
+                                    <input value={this.state.year} onChange={this.onChng} type="text" id="year" placeholder="enter year" />
                                 </div>
                                 <div>
                                     <label htmlFor="directorID">Director</label>
-                                    <select onChange={this.onChng} id="directorID">
-                                        <option disabled={true}>Selecet Director</option>
+                                    <select  value={this.state.directorID} onChange={this.onChng} id="directorID">
+                                        <option disabled  >Selecet Director</option>
                                         <Query query={directorsQuery}>
                                             {({ loading, error, data }) => {
+                                               
                                                 if (loading) return <option disabled={true}>Loading</option>
                                                 if (error) return <option disabled={true}>Error</option>
-                                                return data.directors.map(director => <option key={director.id} value={director.id}>{director.name}</option>)
+                                                
+                                                return data.directors.map(director =>{ return <option key={director.id} value={director.id}>{director.name}</option>})
                                             }}
                                         </Query>
                                     </select>

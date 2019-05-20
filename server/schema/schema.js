@@ -84,6 +84,8 @@ const Mutation = new GraphQLObjectType({
 				directorID: { type: new GraphQLNonNull(GraphQLString) }
 			},
 			resolve(parent, args){
+				const {title,directorID}=args
+
 				const movie = new MovieSchema({
 					title: args.title,
 					description: args.description,

@@ -18,7 +18,9 @@ export const movieQuery=gql`
 query($id:String){
     movie(id:$id){
         title,description,year,director{
-            name
+            name,movies{
+                title,id
+            }
         }
     }
 }`
